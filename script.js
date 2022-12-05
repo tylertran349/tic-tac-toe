@@ -1,21 +1,12 @@
-/*
-TODO:
-- Fix restart button (currently, the board does not reset when pressing restart)
-*/
-
 board = document.querySelector('#board');
 statusIndicator = document.querySelector('#status-indicator');
 restartButton = document.querySelector('#restart-button');
 
-let blankBoard = [
+const blankBoard = [
     ["", "", ""],
     ["", "", ""],
     ["", "", ""]
 ];
-
-restartButton.addEventListener('click', () => {
-    gameBoard.resetGame();
-});
 
 let gameBoard = (function() {
     grid = blankBoard;
@@ -23,8 +14,16 @@ let gameBoard = (function() {
     winner = null;
     currentPlayer = "Player 1";
 
+    function clearBoard() {
+        for(let i = 0; i < 3; i++) {
+            for(let j = 0; j < 3; j++) {
+                grid[i][j] = "";
+            }
+        }
+    }
+
     function resetGame() {
-        grid = blankBoard;
+        clearBoard();
         gameEnd = false;
         winner = null;
         currentPlayer = "Player 1";
@@ -60,49 +59,40 @@ let gameBoard = (function() {
             }
         }
         disableGrid();
-        console.log("tie");
         statusIndicator.textContent = "It's a tie!";
         return;
     }
 
     function checkIfPlayerOneWon() {
         if(grid[0][0] === "X" && grid[0][1] === "X" && grid[0][2] === "X") {
-            console.log("Player 1 won");
             statusIndicator.textContent = "Player 1 wins!";
             disableGrid();
             return;
         } else if(grid[1][0] === "X" && grid[1][1] === "X" && grid[1][2] === "X") {
-            console.log("Player 1 won");
             statusIndicator.textContent = "Player 1 wins!";
             disableGrid();
             return;
         } else if(grid[2][0] === "X" && grid[2][1] === "X" && grid[2][2] === "X") {
-            console.log("Player 1 won");
             statusIndicator.textContent = "Player 1 wins!";
             disableGrid();
             return;
         } else if(grid[0][0] === "X" && grid[1][0] === "X" && grid[2][0] === "X") {
-            console.log("Player 1 won");
             statusIndicator.textContent = "Player 1 wins!";
             disableGrid();
             return;
         } else if(grid[0][1] === "X" && grid[1][1] === "X" && grid[2][1] === "X") {
-            console.log("Player 1 won");
             statusIndicator.textContent = "Player 1 wins!";
             disableGrid();
             return;
         } else if(grid[0][2] === "X" && grid[1][2] === "X" && grid[2][2] === "X") {
-            console.log("Player 1 won");
             statusIndicator.textContent = "Player 1 wins!";
             disableGrid();
             return;
         } else if(grid[0][2] === "X" && grid[1][1] === "X" && grid[2][0] === "X") {
-            console.log("Player 1 won");
             statusIndicator.textContent = "Player 1 wins!";
             disableGrid();
             return;
         } else if(grid[0][0] === "X" && grid[1][1] === "X" && grid[2][2] === "X") {
-            console.log("Player 1 won");
             statusIndicator.textContent = "Player 1 wins!";
             disableGrid();
             return;
@@ -112,42 +102,35 @@ let gameBoard = (function() {
 
     function checkIfPlayerTwoWon() {
         if(grid[0][0] === "O" && grid[0][1] === "O" && grid[0][2] === "O") {
-            console.log("Player 2 won");
             statusIndicator.textContent = "Player 2 wins!";
             disableGrid();
             return;
         } else if(grid[1][0] === "O" && grid[1][1] === "O" && grid[1][2] === "O") {
-            console.log("Player 2 won");
             statusIndicator.textContent = "Player 2 wins!";
             disableGrid();
             return;
         } else if(grid[2][0] === "O" && grid[2][1] === "O" && grid[2][2] === "O") {
-            console.log("Player 2 won");
             statusIndicator.textContent = "Player 2 wins!";
             disableGrid();
             return;
         } else if(grid[0][0] === "O" && grid[1][0] === "O" && grid[2][0] === "O") {
-            console.log("Player 2 won");
             statusIndicator.textContent = "Player 2 wins!";
             disableGrid();
             return;
         } else if(grid[0][1] === "O" && grid[1][1] === "O" && grid[2][1] === "O") {
-            console.log("Player 2 won");
             statusIndicator.textContent = "Player 2 wins!";
             disableGrid();
             return;
         } else if(grid[0][2] === "O" && grid[1][2] === "O" && grid[2][2] === "O") {
-            console.log("Player 2 won");
             statusIndicator.textContent = "Player 2 wins!";
             disableGrid();
             return;
         } else if(grid[0][2] === "O" && grid[1][1] === "O" && grid[2][0] === "O") {
-            console.log("Player 2 won");
+            
             statusIndicator.textContent = "Player 2 wins!";
             disableGrid();
             return;
         } else if(grid[0][0] === "O" && grid[1][1] === "O" && grid[2][2] === "O") {
-            console.log("Player 2 won");
             statusIndicator.textContent = "Player 2 wins!";
             disableGrid();
             return;
@@ -227,12 +210,16 @@ let displayController = (function() {
         gridSquares = document.querySelectorAll('#grid-square');
         gridSquares.forEach((gridSquare) => {
             gridSquare.addEventListener('click', () => {
-                console.log("Grid square at " + gridSquare.getAttribute('data-column') + gridSquare.getAttribute('data-row') + " was clicked");
                 gameBoard.addMove(gridSquare.getAttribute('data-column'), gridSquare.getAttribute('data-row'), gameBoard.getCurrentPlayer());
                 gridSquare.disabled = true;
             });
         });
     }
+
+    // Add event listener to restart button
+    restartButton.addEventListener('click', () => {
+        gameBoard.resetGame();
+    });
 
     return {
         clearGrid: clearGrid,
@@ -240,4 +227,4 @@ let displayController = (function() {
     };
 })();
 
-displayController.drawGrid();
+displayController.drawGrid(); // Draw grid on page load
