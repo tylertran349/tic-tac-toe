@@ -1,0 +1,69 @@
+html {
+    font-size: 10px;
+    font-family: 'Varela Round', sans-serif;
+    max-width: 100vw;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    background: #034e65;
+    color: white;
+    font-size: 4rem;
+}
+
+#header {
+    padding: 4rem 0 4rem 0;
+    text-align: center;
+    font-family: 'Press Start 2P', sans-serif;
+    font-size: 6rem;
+    color: #b8860b;
+}
+
+#status-indicator {
+    padding: 0 0 4rem 0;
+}
+
+#board {
+    width: 25%;
+    aspect-ratio: 1/1;
+    background: white;
+    display: grid;
+    grid-template: repeat(3, 1fr) / repeat(3, 1fr);
+    gap: 1rem;
+}
+
+#grid-square {
+    background: #034e65;
+    border: 0;
+    font-size: 10rem;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#restart-button {
+    background: transparent;
+    color: white;
+    font-family: inherit;
+    font-size: inherit;
+    margin: 4rem 0 4rem 0;
+    border: 0.3rem solid white;
+    box-shadow: rgba(0, 0, 0, 0.5) 0px 5px 15px;
+    padding: 1rem;
+    border-radius: 1rem;
+}
+
+#restart-button:active {
+    background: #023342;
+}
+
+button:hover {
+    cursor: pointer;
+}
