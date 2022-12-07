@@ -67,3 +67,40 @@ body {
 button:hover:enabled {
     cursor: pointer;
 }
+
+#footer {
+    width: 100%;
+    text-align: center;
+    color: inherit;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    height: 4rem;
+}
+
+#footer-contents {
+    font-size: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+#footer a[target="_blank"] {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+}
+
+/* GitHub footer icon styling */
+.fa-github {
+    color: white;
+    font-size: 2.6rem;
+    transition: transform 0.3s ease-in-out;
+}
+  
+/* GitHub footer icon animation on hover */
+.fa-github:hover {
+    transform: rotate(360deg) scale(1.2);
+}
