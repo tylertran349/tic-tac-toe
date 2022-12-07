@@ -8,11 +8,32 @@ const blankBoard = [
     ["", "", ""]
 ];
 
+// Player factory function
+const playerFactory = (playerName, object) => {
+    playerName = playerName;
+    object = object;
+    function getObject() {
+        return object;
+    }
+    function getPlayerName() {
+        return playerName;
+    }
+    return {
+        getPlayerName: getPlayerName,
+        getObject: getObject
+    };
+};
+
+// Create player objects using player factory function
+player1 = playerFactory("Player 1", "player1");
+player2 = playerFactory("Player 2", "player2");
+
+// Game board module
 let gameBoard = (function() {
     grid = blankBoard;
     gameEnd = false;
     winner = null;
-    currentPlayer = "Player 1";
+    currentPlayer = player1;
 
     function clearBoard() {
         for(let i = 0; i < 3; i++) {
@@ -26,8 +47,8 @@ let gameBoard = (function() {
         clearBoard();
         gameEnd = false;
         winner = null;
-        currentPlayer = "Player 1";
-        statusIndicator.textContent = "Player 1's turn";
+        currentPlayer = player1;
+        displayController.updateStatus(currentPlayer.getPlayerName() + "'s turn");
         displayController.drawGrid(); // Draw new grid
     }
 
@@ -36,14 +57,14 @@ let gameBoard = (function() {
     }
 
     function addMove(column, row, player) {
-        if(player === "Player 1") {
+        if(currentPlayer.getObject() === "player1") {
             grid[column][row] = "X";
-            currentPlayer = "Player 2"; // Change current player from Player 1 to Player 2
-            statusIndicator.textContent = "Player 2's turn";
+            currentPlayer = player2; // Change current player from Player 1 to Player 2
+            displayController.updateStatus(currentPlayer.getPlayerName() + "'s turn");
         } else {
             grid[column][row] = "O"
-            currentPlayer = "Player 1"; // Change current player from Player 2 to Player 1
-            statusIndicator.textContent = "Player 1's turn";
+            currentPlayer = player1; // Change current player from Player 2 to Player 1
+            displayController.updateStatus(currentPlayer.getPlayerName() + "'s turn");
         }
         displayController.drawGrid();
         checkGameEnd();
@@ -59,41 +80,41 @@ let gameBoard = (function() {
             }
         }
         disableGrid();
-        statusIndicator.textContent = "It's a tie!";
+        displayController.updateStatus("It's a tie!");
         return;
     }
 
     function checkIfPlayerOneWon() {
         if(grid[0][0] === "X" && grid[0][1] === "X" && grid[0][2] === "X") {
-            statusIndicator.textContent = "Player 1 wins!";
+            displayController.updateStatus(currentPlayer.getPlayerName() + " wins!");
             disableGrid();
             return;
         } else if(grid[1][0] === "X" && grid[1][1] === "X" && grid[1][2] === "X") {
-            statusIndicator.textContent = "Player 1 wins!";
+            displayController.updateStatus(currentPlayer.getPlayerName() + " wins!");
             disableGrid();
             return;
         } else if(grid[2][0] === "X" && grid[2][1] === "X" && grid[2][2] === "X") {
-            statusIndicator.textContent = "Player 1 wins!";
+            displayController.updateStatus(currentPlayer.getPlayerName() + " wins!");
             disableGrid();
             return;
         } else if(grid[0][0] === "X" && grid[1][0] === "X" && grid[2][0] === "X") {
-            statusIndicator.textContent = "Player 1 wins!";
+            displayController.updateStatus(currentPlayer.getPlayerName() + " wins!");
             disableGrid();
             return;
         } else if(grid[0][1] === "X" && grid[1][1] === "X" && grid[2][1] === "X") {
-            statusIndicator.textContent = "Player 1 wins!";
+            displayController.updateStatus(currentPlayer.getPlayerName() + " wins!");
             disableGrid();
             return;
         } else if(grid[0][2] === "X" && grid[1][2] === "X" && grid[2][2] === "X") {
-            statusIndicator.textContent = "Player 1 wins!";
+            displayController.updateStatus(currentPlayer.getPlayerName() + " wins!");
             disableGrid();
             return;
         } else if(grid[0][2] === "X" && grid[1][1] === "X" && grid[2][0] === "X") {
-            statusIndicator.textContent = "Player 1 wins!";
+            displayController.updateStatus(currentPlayer.getPlayerName() + " wins!");
             disableGrid();
             return;
         } else if(grid[0][0] === "X" && grid[1][1] === "X" && grid[2][2] === "X") {
-            statusIndicator.textContent = "Player 1 wins!";
+            displayController.updateStatus(currentPlayer.getPlayerName() + " wins!");
             disableGrid();
             return;
         }
@@ -102,36 +123,36 @@ let gameBoard = (function() {
 
     function checkIfPlayerTwoWon() {
         if(grid[0][0] === "O" && grid[0][1] === "O" && grid[0][2] === "O") {
-            statusIndicator.textContent = "Player 2 wins!";
+            displayController.updateStatus("Player 2 wins!");
             disableGrid();
             return;
         } else if(grid[1][0] === "O" && grid[1][1] === "O" && grid[1][2] === "O") {
-            statusIndicator.textContent = "Player 2 wins!";
+            displayController.updateStatus("Player 2 wins!");
             disableGrid();
             return;
         } else if(grid[2][0] === "O" && grid[2][1] === "O" && grid[2][2] === "O") {
-            statusIndicator.textContent = "Player 2 wins!";
+            displayController.updateStatus("Player 2 wins!");
             disableGrid();
             return;
         } else if(grid[0][0] === "O" && grid[1][0] === "O" && grid[2][0] === "O") {
-            statusIndicator.textContent = "Player 2 wins!";
+            displayController.updateStatus("Player 2 wins!");
             disableGrid();
             return;
         } else if(grid[0][1] === "O" && grid[1][1] === "O" && grid[2][1] === "O") {
-            statusIndicator.textContent = "Player 2 wins!";
+            displayController.updateStatus("Player 2 wins!");
             disableGrid();
             return;
         } else if(grid[0][2] === "O" && grid[1][2] === "O" && grid[2][2] === "O") {
-            statusIndicator.textContent = "Player 2 wins!";
+            displayController.updateStatus("Player 2 wins!");
             disableGrid();
             return;
         } else if(grid[0][2] === "O" && grid[1][1] === "O" && grid[2][0] === "O") {
             
-            statusIndicator.textContent = "Player 2 wins!";
+            displayController.updateStatus("Player 2 wins!");
             disableGrid();
             return;
         } else if(grid[0][0] === "O" && grid[1][1] === "O" && grid[2][2] === "O") {
-            statusIndicator.textContent = "Player 2 wins!";
+            displayController.updateStatus("Player 2 wins!");
             disableGrid();
             return;
         }
@@ -162,6 +183,7 @@ let gameBoard = (function() {
     };
 })();
 
+// Display controller module
 let displayController = (function() {
     // Function to clear grid
     function clearGrid() {
@@ -171,9 +193,14 @@ let displayController = (function() {
         });
     }
 
+    function updateStatus(text) {
+        statusIndicator.textContent = text;
+    }
+
     // Function to print grid
     function drawGrid() {
         clearGrid();
+        displayController.updateStatus(currentPlayer.getPlayerName() + "'s turn");
         for(let i = 0; i < 3; i++) {
             for(let j = 0; j < 3; j++) {
                 // Create grid squares
@@ -223,7 +250,8 @@ let displayController = (function() {
 
     return {
         clearGrid: clearGrid,
-        drawGrid: drawGrid
+        drawGrid: drawGrid,
+        updateStatus: updateStatus
     };
 })();
 
