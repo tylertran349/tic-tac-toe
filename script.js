@@ -1,6 +1,9 @@
-board = document.querySelector('#board');
-statusIndicator = document.querySelector('#status-indicator');
-restartButton = document.querySelector('#restart-button');
+const board = document.querySelector('#board');
+const statusIndicator = document.querySelector('#status-indicator');
+const restartButton = document.querySelector('#restart-button');
+const startGameButton = document.querySelector('#start-game-button');
+const createPlayersOverlay = document.querySelector('#create-players-overlay');
+const form = document.querySelector('#form');
 
 const blankBoard = [
     ["", "", ""],
@@ -24,16 +27,11 @@ const playerFactory = (playerName, object) => {
     };
 };
 
-// Create player objects using player factory function
-player1 = playerFactory("Player 1", "player1");
-player2 = playerFactory("Player 2", "player2");
-
 // Game board module
 let gameBoard = (function() {
     grid = blankBoard;
     gameEnd = false;
-    winner = null;
-    currentPlayer = player1;
+    currentPlayer = null;
 
     function clearBoard() {
         for(let i = 0; i < 3; i++) {
@@ -46,7 +44,6 @@ let gameBoard = (function() {
     function resetGame() {
         clearBoard();
         gameEnd = false;
-        winner = null;
         currentPlayer = player1;
         displayController.updateStatus(currentPlayer.getPlayerName() + "'s turn");
         displayController.drawGrid(); // Draw new grid
@@ -59,15 +56,21 @@ let gameBoard = (function() {
     function addMove(column, row, player) {
         if(currentPlayer.getObject() === "player1") {
             grid[column][row] = "X";
+            displayController.drawGrid();
+            if(checkGameEnd() === true) { 
+                return; // If there's a winner or tie, exit the function
+            }
             currentPlayer = player2; // Change current player from Player 1 to Player 2
             displayController.updateStatus(currentPlayer.getPlayerName() + "'s turn");
         } else {
             grid[column][row] = "O"
+            displayController.drawGrid();
+            if(checkGameEnd() === true) {
+                return; // If there's a winner or tie, exit the function
+            }
             currentPlayer = player1; // Change current player from Player 2 to Player 1
             displayController.updateStatus(currentPlayer.getPlayerName() + "'s turn");
         }
-        displayController.drawGrid();
-        checkGameEnd();
     }
 
     function checkForTie() {
@@ -123,36 +126,36 @@ let gameBoard = (function() {
 
     function checkIfPlayerTwoWon() {
         if(grid[0][0] === "O" && grid[0][1] === "O" && grid[0][2] === "O") {
-            displayController.updateStatus("Player 2 wins!");
+            displayController.updateStatus(currentPlayer.getPlayerName() + " wins!");
             disableGrid();
             return;
         } else if(grid[1][0] === "O" && grid[1][1] === "O" && grid[1][2] === "O") {
-            displayController.updateStatus("Player 2 wins!");
+            displayController.updateStatus(currentPlayer.getPlayerName() + " wins!");
             disableGrid();
             return;
         } else if(grid[2][0] === "O" && grid[2][1] === "O" && grid[2][2] === "O") {
-            displayController.updateStatus("Player 2 wins!");
+            displayController.updateStatus(currentPlayer.getPlayerName() + " wins!");
             disableGrid();
             return;
         } else if(grid[0][0] === "O" && grid[1][0] === "O" && grid[2][0] === "O") {
-            displayController.updateStatus("Player 2 wins!");
+            displayController.updateStatus(currentPlayer.getPlayerName() + " wins!");
             disableGrid();
             return;
         } else if(grid[0][1] === "O" && grid[1][1] === "O" && grid[2][1] === "O") {
-            displayController.updateStatus("Player 2 wins!");
+            displayController.updateStatus(currentPlayer.getPlayerName() + " wins!");
             disableGrid();
             return;
         } else if(grid[0][2] === "O" && grid[1][2] === "O" && grid[2][2] === "O") {
-            displayController.updateStatus("Player 2 wins!");
+            displayController.updateStatus(currentPlayer.getPlayerName() + " wins!");
             disableGrid();
             return;
         } else if(grid[0][2] === "O" && grid[1][1] === "O" && grid[2][0] === "O") {
             
-            displayController.updateStatus("Player 2 wins!");
+            displayController.updateStatus(currentPlayer.getPlayerName() + " wins!");
             disableGrid();
             return;
         } else if(grid[0][0] === "O" && grid[1][1] === "O" && grid[2][2] === "O") {
-            displayController.updateStatus("Player 2 wins!");
+            displayController.updateStatus(currentPlayer.getPlayerName() + " wins!");
             disableGrid();
             return;
         }
@@ -172,11 +175,13 @@ let gameBoard = (function() {
         checkForTie();
         checkIfPlayerOneWon();
         checkIfPlayerTwoWon();
+        if(gameEnd === true) {
+            return true;
+        }
     }
     
     return {
         grid: grid,
-        gameEnd: gameEnd,
         addMove: addMove,
         getCurrentPlayer: getCurrentPlayer,
         resetGame: resetGame
@@ -209,7 +214,7 @@ let displayController = (function() {
                 // Change button text of grid squares
                 if(gameBoard.grid[i][j] === "X") {
                     gridSquare.textContent = "❌";
-                    gridSquare.setAttribute('style', 'color: #90EE90; font-size: 12rem;');
+                    gridSquare.setAttribute('style', 'color: #90EE90;');
                     gridSquare.setAttribute('disabled', 'true'); // Prevent grid square from being clicked
                 } else if(gameBoard.grid[i][j] === "O") {
                     gridSquare.textContent = "⭕";
@@ -248,11 +253,22 @@ let displayController = (function() {
         gameBoard.resetGame();
     });
 
+    function submitFunction() {
+        const player1_input = document.querySelector('#player-1-input');
+        const player2_input = document.querySelector('#player-2-input')
+
+        // Create player objects using player factory function
+        player1 = playerFactory(player1_input.value, "player1");
+        player2 = playerFactory(player2_input.value, "player2");
+
+        form.reset(); // Reset form input values
+        createPlayersOverlay.style.display = "none"; // Hide add book overlay
+        gameBoard.resetGame(); // Start new game from scratch
+    }
+
     return {
-        clearGrid: clearGrid,
         drawGrid: drawGrid,
-        updateStatus: updateStatus
+        updateStatus: updateStatus,
+        submitFunction: submitFunction
     };
 })();
-
-displayController.drawGrid(); // Draw grid on page load
