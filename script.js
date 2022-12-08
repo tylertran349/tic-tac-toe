@@ -219,7 +219,7 @@ let displayController = (function() {
                 // Change button text of grid squares
                 if(gameBoard.grid[i][j] === "X") {
                     gridSquare.textContent = "❌";
-                    gridSquare.setAttribute('style', 'color: #90EE90;');
+                    gridSquare.setAttribute('style', 'color: transparent; text-shadow: 0 0 0 #90EE90;');
                     gridSquare.setAttribute('disabled', 'true'); // Prevent grid square from being clicked
                 } else if(gameBoard.grid[i][j] === "O") {
                     gridSquare.textContent = "⭕";
