@@ -132,7 +132,8 @@ button:hover:enabled {
 }
 
 #player-1-icon {
-    color: #90EE90;
+    color: transparent;
+    text-shadow: 0 0 0 #90EE90; /* Workaround to fill emoji with green color */
     font-size: 8rem;
 }
 
