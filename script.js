@@ -11,6 +11,11 @@ const blankBoard = [
     ["", "", ""]
 ];
 
+// Hide board, restart button, and footer until user starts game
+board.style.display = "none";
+restartButton.style.display = "none";
+footer.style.display = "none";
+
 // Player factory function
 const playerFactory = (playerName, object) => {
     playerName = playerName;
@@ -261,6 +266,11 @@ let displayController = (function() {
         player1 = playerFactory(player1_input.value, "player1");
         player2 = playerFactory(player2_input.value, "player2");
 
+        // Show board, restart button, and footer once user starts game
+        board.style.display = "grid";
+        restartButton.style.display = "flex";
+        footer.style.display = "flex";
+        
         form.reset(); // Reset form input values
         createPlayersOverlay.style.display = "none"; // Hide add book overlay
         gameBoard.resetGame(); // Start new game from scratch
