@@ -11,6 +11,24 @@
     </head>
     <body>
         <script src="script.js" defer></script>
+        <div id="create-players-overlay">
+            <form id="form" action="" method="post" onsubmit="event.preventDefault(); return displayController.submitFunction();">
+                <span id="title">Create Players</span>
+                <div id="inputs">
+                    <div id="label-input">
+                        <label for="player-1-name">Enter Player 1's name</label>
+                        <input id="player-1-input" type="text" placeholder="Player 1" name="player-1" required>
+                        <span id="player-1-icon">❌</span>
+                    </div>
+                    <div id="label-input">
+                        <label for="player-2-name">Enter Player 2's name</label>
+                        <input id="player-2-input" type="text" placeholder="Player 2" name="player-2" required>
+                        <span id="player-2-icon">⭕</span>
+                    </div>
+                </div>
+                <button id="start-game-button" type="submit">Start Game</button>
+            </form>
+        </div>
         <span id="header">TIC-TAC-TOE</span>
         <span id="status-indicator"></span>
         <div id="board"></div>
