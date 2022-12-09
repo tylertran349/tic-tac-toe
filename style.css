@@ -30,7 +30,7 @@ body {
 }
 
 #board {
-    width: 25%;
+    width: 21%;
     aspect-ratio: 1/1;
     background: white;
     display: grid;
@@ -162,6 +162,9 @@ button:hover:enabled {
 }
 
 #footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
     width: 100%;
     text-align: center;
     color: inherit;
@@ -169,6 +172,7 @@ button:hover:enabled {
     justify-content: center;
     align-items: flex-end;
     height: 4rem;
+    margin-bottom: 1rem;
 }
 
 #footer-contents {
@@ -176,7 +180,6 @@ button:hover:enabled {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: 1rem;
 }
 
 #footer a[target="_blank"] {
